@@ -15,53 +15,71 @@ import {
   Menu, 
   X,
   Factory,
-  ArrowUpRight
+  ArrowUpRight,
+  TrendingUp,
+  Plane,
+  Scale
 } from 'lucide-react';
+import ChatWidget from './components/ChatWidget';
 
 const translations = {
   NL: {
-    nav: { about: "Over Ons", services: "Diensten", why: "Waarom H&O?", quote: "Offerte Aanvragen" },
-    hero: { spoc: "Single Point of Contact (SPOC)", p1: "Your Global Partner in ", p2: "Custom Sourcing", p3: " & Branding.", desc: "H&O Worldwide Solutions is de SPOC voor bedrijven die op zoek zijn naar hoogwaardige, op maat gemaakte promotiematerialen en zakelijke geschenken in grote volumes.", quote: "Offerte aanvragen", discover: "Ontdek mogelijkheden" },
-    about: { title: "Van idee naar fysiek premium product, wereldwijd.", p1: "H&O Worldwide Solutions is een B2B sourcing- en merchandisebedrijf dat fungeert als centraal aanspreekpunt voor grote corporates en organisaties.", p2: "Wij verzorgen de volledige productie van custom-made promotieartikelen zoals elektronica, textiel en luxe giftbags in grote volumes. Onze kracht ligt in de combinatie van productie in Turkije en China, waarbij wij het volledige proces van sample-ontwikkeling tot internationale logistiek en levering beheren.", p3: "De focus ligt op volledige ontzorging van de klant, premium kwaliteit en scherpe prijzen.", stat1: "100%", stat2: "Ontzorging &\nKwaliteitscontrole" },
-    services: { subtitle: "Onze Exclusieve Diensten", title: "End-to-End Sourcing Oplossingen", viewAll: "Bekijk Alle Mogelijkheden",
-      s1: { title: "Custom Made Productie", desc: "Geen standaard cataloguswerk. Wij produceren items (petten, pennen, draadloze opladers, giftbags) exact volgens uw merkspecificaties (kleur, materiaal, logo)." },
-      s2: { title: "Global Sourcing", desc: "Strategische inkoop bij geverifieerde wholesalers in Turkije voor snelheid & textiel, en China voor volume & technologie." },
-      s3: { title: "Full-Service Logistiek", desc: "Wij beheren de gehele supply chain: van de eerste sample en massaproductie tot douane-afhandeling en de levering direct aan uw deur." },
-      s4: { title: "Kwaliteitsgarantie", desc: "Strenge en onafhankelijke controle op het test-sample én de eindproductie om consistent te voldoen aan de hoogste Europese standaarden." }
+    nav: { about: "Over Ons", services: "Diensten", why: "Waarom H&O?", cases: "Portfolio", quote: "Offerte Aanvragen" },
+    hero: { spoc: "Supply Chain & Merchandise Partner", p1: "H&O Worldwide ", p2: "optimaliseert", p3: " uw merkvisibiliteit.", desc: "Wij ontwerpen en produceren hoogwaardige merchandise-oplossingen waarbij we de volledige logistieke keten overnemen. Efficiëntie en ontzorging voor corporates en premium merken.", quote: "Vraag een Sample Pack aan", discover: "Bekijk de voordelen" },
+    about: { title: "Van idee naar fysiek premium product, zonder zorgen.", p1: "Grote organisaties hebben geen behoefte aan een standaard catalogus. Ze zoeken een strategische partner die de merkidentiteit feilloos vertaalt naar tastbare producten en de volledige executie overneemt.", p2: "Door de inzet van in-house designers en krachtige productiehubs in Turkije en China zorgen wij voor oplossingen die niet alleen esthetisch perfect zijn, maar ook schaalbaar en conform alle internationale normen.", p3: "Wij nemen de volledige logistieke keten over. U behoudt de regie, wij doen het werk.", stat1: "100%", stat2: "Ontzorging &\nCompliance Garantié" },
+    services: { subtitle: "Onze Expertise", title: "End-to-End Sourcing Oplossingen", viewAll: "Bekijk Alle Mogelijkheden",
+      s1: { title: "Custom Made Productie", desc: "Volledig maatwerk dat aansluit bij uw brand guidelines. Van de juiste Pantone-kleur tot doordachte materiaalkeuze voor een premium positionering." },
+      s2: { title: "Strategische Hubs", desc: "Onze focus-zones: Turkije voor hoogwaardig textiel en ultra-snelle levering (near-shoring), China voor technologische gadgets en maximale schaalvoordelen." },
+      s3: { title: "Full-Service Logistiek", desc: "Efficiëntie is key. Na de productiefase dragen wij zorg voor QC, douane-afhandeling, warehousing en de uiteindelijke last-mile delivery." },
+      s4: { title: "Kwaliteit & Ethiek", desc: "Absolute compliance-zekerheid. Al onze partnerfabrieken opereren volgens strikte EU-normen (incl. CE-markeringen) en strikte sociale audits." }
     },
-    why: { title: "Waarom kiezen voor H&O?", desc: "Uw SPOC voor grootschalige promotiecampagnes. Wij transformeren complexiteit in garanties.",
-      features: [
-        { title: "Ontlasting van A tot Z", desc: "U geeft de opdracht, wij doen de rest. Geen kopzorgen over importheffingen, fabriekscommunicatie of productiefouten." },
-        { title: "Scherpe Prijzen, Grote Volumes", desc: "Door directe lijnen te onderhouden met fabrikanten elimineren we de tussenman en optimaliseren we uw budget." },
-        { title: "Snelheid & Flexibiliteit", desc: "Dankzij onze in-house productiepartners in Turkije kunnen we ongekend snel schakelen voor de Europese markt." },
-        { title: "100% Betrouwbaarheid", desc: "Eén vast, professioneel aanspreekpunt voor al uw vragen, updates en strategisch advies." }
+    cases: { subtitle: "Concept Cases", title: "Premium oplossingen, tastbaar gemaakt", 
+      items: [
+        { title: "Consultancy Onboarding Box", desc: "Luxe matzwarte geschenkdoos met Moleskine-achtige notitieboeken, premium pennen en een gepersonaliseerde powerbank. Volledig in lijn met ingetogen corporate identiteit." },
+        { title: "Tech Event Swag", desc: "Duurzaam geproduceerde rPET backpacks, gecombineerd met draadloze snelladers (CE gecertificeerd) van de hoogste kwaliteit, direct geleverd op locatie." },
+        { title: "FMCG Zomerpromotie", desc: "Volume-ordening van badstof handdoeken (geproduceerd in Turkije voor snelle marktlancering) en hoogwaardige koeltassen voor nationale naamsbekendheid." }
       ]
     },
-    break: "Wereldwijd bereik. Lokale precisie.",
-    contact: { ready: "Klaar om te starten?", title: "Elevate your global branding today.", desc: "Laat ons uw visie transformeren naar premium fysieke producten. Neem contact op om de mogelijkheden in uw volgende volume-traject te bespreken.", quote: "Vraag een offerte aan voor uw project", call: "Bel direct een specialist" },
-    footer: { desc: "H&O Worldwide Solutions is uw Single Point of Contact (SPOC) voor premium sourcing, merchandise productie en full-service logistiek.", menu: "Menu", offices: "Kantoren", hq: "Hoofdkantoor EU" }
+    why: { title: "De H&O Garantie", desc: "Waarom grote spelers ons hun promotionele inkoop en distributie toevertrouwen.",
+      features: [
+        { title: "Ontzorging van A tot Z", desc: "Wij elimineren de complexiteit. Geen kopzorgen over importheffingen, defecten of communicatie. Wij zijn uw dedicated SPOC." },
+        { title: "Transparante Schaalvoordelen", desc: "We elimineren de tussenlaag. Onze directe inkoop en volume bundling garanderen de scherpste procurement-voorwaarden." },
+        { title: "Europese Compliance en Kwaliteit", desc: "Van CE-markeringen op elektronica tot BSCI-gecertificeerde kleding, wij leveren 100% veiligheid aan uw inkoopafdeling." },
+        { title: "Snelheid (Near-Shoring)", desc: "Via onze Turkse textielcentra kunnen we ongekend snel schakelen wanneer er onmiddellijk op markttrends gereageerd moet worden." }
+      ]
+    },
+    break: "Schaalbare oplossingen. Zonder kwaliteitsverlies.",
+    contact: { ready: "Uw logistieke keten vereenvoudigen?", title: "Elevate your corporate gifting.", desc: "Contacteer onze Senior Account Managers om te bespreken hoe H&O Worldwide uw promotionele efficiëntie kan verhogen.", quote: "Vraag een Sample Pack aan", call: "Bel onze compliance experts" },
+    footer: { desc: "H&O Worldwide Solutions is uw B2B partner in custom sourcing, ethical production en full-service merchandise logistics.", menu: "Navigatie", offices: "Operationele Hubs", hq: "Hoofdkantoor EU" }
   },
   EN: {
-    nav: { about: "About Us", services: "Services", why: "Why H&O?", quote: "Request Quote" },
-    hero: { spoc: "Single Point of Contact (SPOC)", p1: "Your Global Partner in ", p2: "Custom Sourcing", p3: " & Branding.", desc: "H&O Worldwide Solutions is the SPOC for companies seeking high-quality, custom-made promotional materials and corporate gifts in large volumes.", quote: "Request Quote", discover: "Discover Possibilities" },
-    about: { title: "From idea to physical premium product, worldwide.", p1: "H&O Worldwide Solutions is a B2B sourcing and merchandise company acting as a central point of contact for large corporates and organizations.", p2: "We handle the complete production of custom promotional items like electronics, textiles, and luxury gift bags in large volumes. Our strength lies in combining production in Turkey and China, managing the full process from sample development to international logistics and delivery.", p3: "Our focus is on total unburdening for the customer, premium quality, and competitive pricing.", stat1: "100%", stat2: "Unburdening &\nQuality Control" },
-    services: { subtitle: "Our Exclusive Services", title: "End-to-End Sourcing Solutions", viewAll: "View All Options",
-      s1: { title: "Custom Made Production", desc: "No standard catalogs. We produce items (caps, pens, wireless chargers, gift bags) exactly to your brand specifications (color, material, logo)." },
-      s2: { title: "Global Sourcing", desc: "Strategic procurement from verified wholesalers in Turkey for speed & textiles, and China for volume & tech." },
-      s3: { title: "Full-Service Logistics", desc: "We manage the entire supply chain: from initial sample and mass production to customs clearance and door-to-door delivery." },
-      s4: { title: "Quality Guarantee", desc: "Strict, independent checks on the test sample and final production to consistently meet the highest European standards." }
+    nav: { about: "About Us", services: "Services", why: "Why H&O?", cases: "Portfolio", quote: "Request Quote" },
+    hero: { spoc: "Supply Chain & Merchandise Partner", p1: "H&O Worldwide ", p2: "optimizes", p3: " your brand visibility.", desc: "We design and produce high-end merchandise solutions while taking over the entire logistics chain. Efficiency and unburdening for corporates and premium brands.", quote: "Request a Sample Pack", discover: "Discover the benefits" },
+    about: { title: "From concept to premium physical product, hassle-free.", p1: "Large organizations do not need a standard catalog. They seek a strategic partner that translates their brand identity into tangible products seamlessly.", p2: "By deploying in-house designers and powerful production hubs in Turkey and China, we ensure solutions that are aesthetically perfect, scalable, and fully compliant with international norms.", p3: "We take full control of the supply chain. You keep the direction, we do the work.", stat1: "100%", stat2: "Unburdening &\nCompliance Guarantee" },
+    services: { subtitle: "Our Expertise", title: "End-to-End Sourcing Solutions", viewAll: "View All Options",
+      s1: { title: "Custom Made Production", desc: "Fully tailored to your brand guidelines. From exact Pantone matching to deliberate material choices for premium positioning." },
+      s2: { title: "Strategic Hubs", desc: "Our core areas: Turkey for premium textiles and ultra-fast near-shoring, China for tech gadgets and maximum economies of scale." },
+      s3: { title: "Full-Service Logistics", desc: "Efficiency is key. Post-production, we handle QC, customs clearance, warehousing, and the ultimate last-mile delivery." },
+      s4: { title: "Quality & Ethics", desc: "Absolute compliance security. All partner factories conform to stringent EU standards (including CE) and pass strict social audits." }
     },
-    why: { title: "Why choose H&O?", desc: "Your SPOC for large-scale promotional campaigns. We transform complexity into guarantees.",
-      features: [
-        { title: "Total Unburdening", desc: "You give the order, we do the rest. No headaches over import duties, factory communication, or production flaws." },
-        { title: "Competitive Pricing & Volume", desc: "By maintaining direct lines with manufacturers, we eliminate the middleman and optimize your budget." },
-        { title: "Speed & Flexibility", desc: "Thanks to our in-house production partners in Turkey, we can move incredibly fast for the European market." },
-        { title: "100% Reliability", desc: "One dedicated, professional point of contact for all your questions, updates, and strategic advice." }
+    cases: { subtitle: "Portfolio", title: "Premium solutions, made tangible", 
+      items: [
+        { title: "Consultancy Onboarding Box", desc: "Luxury matte black gift box featuring Moleskine-style notebooks, premium pens, and a bespoke powerbank. Perfectly aligned with a sophisticated corporate identity." },
+        { title: "Tech Event Swag", desc: "Sustainably produced rPET backpacks bundled with top-tier (CE-certified) wireless fast chargers, delivered straight to the venue." },
+        { title: "FMCG Summer Promo", desc: "High-volume order of terry cloth towels (fast-tracked in Turkey) combined with premium cooler bags for deep national brand penetration." }
       ]
     },
-    break: "Global reach. Local precision.",
-    contact: { ready: "Ready to start?", title: "Elevate your global branding today.", desc: "Let us transform your vision into premium physical products. Contact us to discuss the possibilities for your next volume project.", quote: "Request a quote for your project", call: "Call a specialist directly" },
-    footer: { desc: "H&O Worldwide Solutions is your Single Point of Contact (SPOC) for premium sourcing, merchandise production, and full-service logistics.", menu: "Menu", offices: "Offices", hq: "Headquarters EU" }
+    why: { title: "The H&O Guarantee", desc: "Why major players entrust us with their promotional procurement and distribution.",
+      features: [
+        { title: "End-to-End Unburdening", desc: "We eliminate complexity. No concerns about import duties, flaws, or communication. We are your dedicated SPOC." },
+        { title: "Transparent Economies of Scale", desc: "We cut out the middleman. Our direct purchasing and volume bundling guarantee sharp procurement rates." },
+        { title: "European Compliance & Quality", desc: "From CE marks on electronics to BSCI-certified clothing, we guarantee 100% safety and peace of mind for your purchasing department." },
+        { title: "Speed (Near-Shoring)", desc: "Through our Turkish textile hubs, we can act remarkably fast when instant market trend reactions are required." }
+      ]
+    },
+    break: "Scalable solutions. Zero compromises.",
+    contact: { ready: "Ready to simplify your supply chain?", title: "Elevate your corporate gifting.", desc: "Contact our Senior Account Managers to discuss how H&O Worldwide can elevate your promotional efficiency.", quote: "Request a Sample Pack", call: "Call our compliance experts" },
+    footer: { desc: "H&O Worldwide Solutions is your B2B partner in custom sourcing, ethical production, and full-service merchandise logistics.", menu: "Navigation", offices: "Operational Hubs", hq: "Headquarters EU" }
   }
 };
 
@@ -113,6 +131,7 @@ export default function App() {
             <div className="hidden md:flex items-center space-x-6">
               <a href="#about" className={`text-sm font-medium transition-colors ${isScrolled ? 'text-slate-600 hover:text-indigo-600' : 'text-slate-200 hover:text-white'}`}>{t.nav.about}</a>
               <a href="#services" className={`text-sm font-medium transition-colors ${isScrolled ? 'text-slate-600 hover:text-indigo-600' : 'text-slate-200 hover:text-white'}`}>{t.nav.services}</a>
+              <a href="#portfolio" className={`text-sm font-medium transition-colors ${isScrolled ? 'text-slate-600 hover:text-indigo-600' : 'text-slate-200 hover:text-white'}`}>{t.nav.cases}</a>
               <a href="#why-us" className={`text-sm font-medium transition-colors ${isScrolled ? 'text-slate-600 hover:text-indigo-600' : 'text-slate-200 hover:text-white'}`}>{t.nav.why}</a>
               
               <div className={`flex items-center rounded-full p-1 border ml-4 ${isScrolled ? 'bg-slate-100 border-slate-200' : 'bg-white/10 border-white/10 backdrop-blur-sm'}`}>
@@ -169,6 +188,7 @@ export default function App() {
             </div>
             <a href="#about" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 font-medium px-4 py-2 hover:text-indigo-600 border-l-2 border-transparent hover:border-indigo-600">{t.nav.about}</a>
             <a href="#services" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 font-medium px-4 py-2 hover:text-indigo-600 border-l-2 border-transparent hover:border-indigo-600">{t.nav.services}</a>
+            <a href="#portfolio" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 font-medium px-4 py-2 hover:text-indigo-600 border-l-2 border-transparent hover:border-indigo-600">{t.nav.cases}</a>
             <a href="#why-us" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 font-medium px-4 py-2 hover:text-indigo-600 border-l-2 border-transparent hover:border-indigo-600">{t.nav.why}</a>
             <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="bg-indigo-900 hover:bg-indigo-800 text-white text-center py-4 rounded-lg font-semibold mt-4 shadow-sm w-full mx-auto">
               {t.nav.quote}
@@ -182,8 +202,8 @@ export default function App() {
         {/* Background Image & Overlay */}
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://picsum.photos/seed/freight-containers/1920/1080?grayscale" 
-            alt="Worldwide Logistics and Containers" 
+            src="https://picsum.photos/seed/premium-giftbox-logistics/1920/1080?grayscale" 
+            alt="Worldwide Logistics and Premium Merchandise" 
             className="w-full h-full object-cover object-center translate-y-0"
             referrerPolicy="no-referrer"
           />
@@ -213,10 +233,16 @@ export default function App() {
             </motion.p>
             
             <motion.div variants={fadeIn} className="flex flex-col sm:flex-row gap-4">
-              <a href="#contact" className="inline-flex justify-center items-center gap-2 px-8 py-4 bg-white text-slate-900 hover:bg-slate-200 transition-colors rounded-lg font-bold text-sm shadow-lg hover:shadow-xl">
+              <button 
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.dispatchEvent(new CustomEvent('open-chat', { detail: { message: "Ik wil graag een Sample Pack aanvragen." } }));
+                }}
+                className="inline-flex justify-center items-center gap-2 px-8 py-4 bg-white text-slate-900 hover:bg-slate-200 transition-colors rounded-lg font-bold text-sm shadow-lg hover:shadow-xl"
+              >
                 {t.hero.quote}
                 <ChevronRight className="w-4 h-4" />
-              </a>
+              </button>
               <a href="#services" className="inline-flex justify-center items-center gap-2 px-8 py-4 border border-slate-600 bg-slate-900/40 backdrop-blur-sm text-white hover:bg-slate-800 transition-colors font-bold text-sm rounded-lg shadow-sm">
                 {t.hero.discover}
               </a>
@@ -309,14 +335,22 @@ export default function App() {
             </motion.div>
 
             {/* Service 2 */}
-            <motion.div variants={fadeIn} className="bg-white p-10 border border-slate-200 hover:shadow-xl transition-all duration-300 group rounded-2xl">
+            <motion.div variants={fadeIn} className="bg-white p-10 border border-slate-200 hover:shadow-xl transition-all duration-300 group rounded-2xl flex flex-col">
               <div className="w-14 h-14 bg-indigo-50 border border-indigo-100 rounded-lg flex items-center justify-center mb-8 group-hover:bg-indigo-600 transition-colors duration-300">
                 <Globe className="w-6 h-6 text-indigo-600 group-hover:text-white" />
               </div>
               <h3 className="text-xl font-bold text-slate-900 mb-4">{t.services.s2.title}</h3>
-              <p className="text-slate-600 leading-relaxed font-medium">
+              <p className="text-slate-600 leading-relaxed font-medium mb-8">
                 {t.services.s2.desc}
               </p>
+              <div className="flex flex-wrap gap-3 mt-auto">
+                <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-slate-600 bg-slate-100 px-3 py-2 rounded border border-slate-200">
+                  <Truck className="w-3.5 h-3.5 text-indigo-600" /> Turkije (Fast)
+                </div>
+                <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-slate-600 bg-slate-100 px-3 py-2 rounded border border-slate-200">
+                   <Plane className="w-3.5 h-3.5 text-indigo-600" /> China (Scale)
+                </div>
+              </div>
             </motion.div>
 
             {/* Service 3 */}
@@ -341,6 +375,53 @@ export default function App() {
               </p>
             </motion.div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Concept Cases Section / Portfolio */}
+      <section id="portfolio" className="py-24 bg-slate-50 border-t border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-16 md:flex md:justify-between md:items-end">
+            <div className="max-w-2xl">
+              <span className="text-sm font-bold tracking-widest text-indigo-600 uppercase mb-3 block">{t.cases.subtitle}</span>
+              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-900">
+                {t.cases.title}
+              </h2>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {t.cases.items.map((item: any, i: number) => {
+               const images = [
+                  "https://picsum.photos/seed/giftbox-black/800/600",
+                  "https://picsum.photos/seed/tech-backpack/800/600",
+                  "https://picsum.photos/seed/summer-towels/800/600"
+               ];
+               return (
+                <motion.div 
+                  key={i} 
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1, duration: 0.5 }}
+                  className="bg-white rounded-2xl overflow-hidden shadow-lg border border-slate-200 group"
+                >
+                  <div className="aspect-[4/3] overflow-hidden bg-slate-100 flex items-center justify-center">
+                    <img 
+                      src={images[i]} 
+                      alt={item.title} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+                  <div className="p-8">
+                    <h3 className="text-xl font-bold text-slate-900 mb-4">{item.title}</h3>
+                    <p className="text-slate-600 font-medium leading-relaxed">{item.desc}</p>
+                  </div>
+                </motion.div>
+               );
+            })}
+          </div>
         </div>
       </section>
 
@@ -405,13 +486,16 @@ export default function App() {
           </p>
           
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <button className="inline-flex justify-center items-center gap-2 px-8 py-4 bg-indigo-600 text-white hover:bg-indigo-500 transition-colors rounded-lg font-bold text-sm shadow-md hover:shadow-lg">
+            <button 
+              onClick={() => window.dispatchEvent(new CustomEvent('open-chat', { detail: { message: "Ik wil graag een Sample Pack aanvragen." } }))}
+              className="inline-flex justify-center items-center gap-2 px-8 py-4 bg-indigo-600 text-white hover:bg-indigo-500 transition-colors rounded-lg font-bold text-sm shadow-md hover:shadow-lg"
+            >
               <Package className="w-4 h-4" />
               {t.contact.quote}
             </button>
-            <button className="inline-flex justify-center items-center gap-2 px-8 py-4 border border-slate-700 bg-slate-800 text-white hover:bg-slate-700 hover:border-slate-600 transition-colors rounded-lg font-bold text-sm shadow-sm">
+            <a href="mailto:info@howorldwide.com" className="inline-flex justify-center items-center gap-2 px-8 py-4 border border-slate-700 bg-slate-800 text-white hover:bg-slate-700 hover:border-slate-600 transition-colors rounded-lg font-bold text-sm shadow-sm">
               {t.contact.call}
-            </button>
+            </a>
           </div>
         </div>
       </section>
@@ -454,6 +538,8 @@ export default function App() {
           </div>
         </div>
       </footer>
+      
+      <ChatWidget t={t} />
     </div>
   );
 }
