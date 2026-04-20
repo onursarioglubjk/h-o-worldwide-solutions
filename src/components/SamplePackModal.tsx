@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Send, Package, CheckCircle2 } from 'lucide-react';
+import { X, Send, Package, CheckCircle2, Loader2 } from 'lucide-react';
+import { db } from '../lib/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 interface SamplePackModalProps {
   isOpen: boolean;
@@ -10,6 +12,17 @@ interface SamplePackModalProps {
 
 export default function SamplePackModal({ isOpen, onClose, language }: SamplePackModalProps) {
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Form State
+  const [formData, setFormData] = useState({
+    company: '',
+    name: '',
+    email: '',
+    phone: '',
+    volume: '',
+    interests: ''
+  });
   
   const text = {
     NL: {
@@ -50,13 +63,49 @@ export default function SamplePackModal({ isOpen, onClose, language }: SamplePac
   useEffect(() => {
     if (isOpen) {
       setSubmitted(false);
+      setIsSubmitting(false);
+      setFormData({
+        company: '',
+        name: '',
+        email: '',
+        phone: '',
+        volume: '',
+        interests: ''
+      });
     }
   }, [isOpen]);
 
-  const handleSubmit = (e: any) => {
+  const handleChange = (e: any) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    // In a real application, you'd integrate your API here
-    setSubmitted(true);
+    setIsSubmitting(true);
+    
+    try {
+      // 1. Save to Firebase
+      await addDoc(collection(db, 'requests'), {
+        ...formData,
+        createdAt: serverTimestamp()
+      });
+
+      // 2. Trigger Email Notification via an Email Service API (like FormSubmit)
+      // Since we don't have a backend to hide secure API keys, a simple solution is 
+      // utilizing formsubmit.co or similar purely for notification to your designated email.
+      // E.g., fetch('https://formsubmit.co/ajax/info@howorldwide.com', { ... })
+      // For now, this step proceeds assuming Firebase saved successfully.
+
+      setSubmitted(true);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("Er ging iets mis bij het verzenden. Probeer het opnieuw of mail direct naar info@howorldwide.com");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -120,41 +169,42 @@ export default function SamplePackModal({ isOpen, onClose, language }: SamplePac
                   <div className="grid grid-cols-2 gap-4">
                     <div className="col-span-2 sm:col-span-1">
                       <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">{t.company} *</label>
-                      <input required type="text" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent outline-none transition-all font-medium" />
+                      <input name="company" value={formData.company} onChange={handleChange} required type="text" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent outline-none transition-all font-medium" />
                     </div>
                     <div className="col-span-2 sm:col-span-1">
                       <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">{t.name} *</label>
-                      <input required type="text" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent outline-none transition-all font-medium" />
+                      <input name="name" value={formData.name} onChange={handleChange} required type="text" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent outline-none transition-all font-medium" />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="col-span-2 sm:col-span-1">
                       <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">{t.email} *</label>
-                      <input required type="email" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent outline-none transition-all font-medium" />
+                      <input name="email" value={formData.email} onChange={handleChange} required type="email" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent outline-none transition-all font-medium" />
                     </div>
                     <div className="col-span-2 sm:col-span-1">
                       <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">{t.phone}</label>
-                      <input type="tel" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent outline-none transition-all font-medium" />
+                      <input name="phone" value={formData.phone} onChange={handleChange} type="tel" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent outline-none transition-all font-medium" />
                     </div>
                   </div>
                   
                   <div className="col-span-2">
                     <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">{t.volume}</label>
-                    <input type="text" placeholder="500 - 1000" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent outline-none transition-all font-medium" />
+                    <input name="volume" value={formData.volume} onChange={handleChange} type="text" placeholder="500 - 1000" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent outline-none transition-all font-medium" />
                   </div>
 
                   <div className="col-span-2">
                     <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">{t.interests} *</label>
-                    <textarea required placeholder={t.interests_placeholder} rows={3} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent outline-none transition-all font-medium resize-none"></textarea>
+                    <textarea name="interests" value={formData.interests} onChange={handleChange} required placeholder={t.interests_placeholder} rows={3} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent outline-none transition-all font-medium resize-none"></textarea>
                   </div>
 
                   <button 
                     type="submit"
-                    className="w-full px-8 py-4 bg-indigo-600 text-white rounded-lg font-bold hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 mt-4 shadow-md"
+                    disabled={isSubmitting}
+                    className="w-full px-8 py-4 bg-indigo-600 text-white rounded-lg font-bold hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 mt-4 shadow-md disabled:bg-indigo-400 disabled:cursor-not-allowed"
                   >
-                    <Send className="w-4 h-4" />
-                    {t.submit}
+                    {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-4 h-4" />}
+                    {isSubmitting ? "Bezig met verzenden..." : t.submit}
                   </button>
                 </form>
               )}

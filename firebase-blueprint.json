@@ -1,0 +1,25 @@
+{
+  "entities": {
+    "SampleRequest": {
+      "title": "SampleRequest",
+      "description": "A lead request for a sample pack",
+      "type": "object",
+      "properties": {
+        "company": { "type": "string", "description": "Company name" },
+        "name": { "type": "string", "description": "Contact person name" },
+        "email": { "type": "string", "description": "Email address" },
+        "phone": { "type": "string", "description": "Phone number" },
+        "volume": { "type": "string", "description": "Expected volume" },
+        "interests": { "type": "string", "description": "Interests" },
+        "createdAt": { "type": "timestamp" }
+      },
+      "required": ["company", "name", "email", "interests", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/requests/{requestId}": {
+      "schema": "SampleRequest",
+      "description": "Submitted sample pack requests"
+    }
+  }
+}

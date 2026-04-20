@@ -1,0 +1,31 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidSampleRequest(data) {
+      let isSizeValid = data.keys().hasAll(['company', 'name', 'email', 'interests', 'createdAt']) && data.size() >= 5 && data.size() <= 7;
+      let companyValid = data.company is string && data.company.size() > 0 && data.company.size() <= 200;
+      let nameValid = data.name is string && data.name.size() > 0 && data.name.size() <= 200;
+      let emailValid = data.email is string && data.email.size() > 0 && data.email.size() <= 200 && data.email.matches('^.+@.+\\..+$');
+      let interestsValid = data.interests is string && data.interests.size() > 0 && data.interests.size() <= 2000;
+      let createdAtValid = data.createdAt == request.time;
+      
+      let phoneValid = !('phone' in data) || (data.phone is string && data.phone.size() <= 50);
+      let volumeValid = !('volume' in data) || (data.volume is string && data.volume.size() <= 100);
+
+      return isSizeValid && companyValid && nameValid && emailValid && interestsValid && createdAtValid && phoneValid && volumeValid;
+    }
+
+    match /requests/{requestId} {
+      allow create: if isValidId(requestId) && isValidSampleRequest(request.resource.data);
+      // No read or update permissions for public users
+    }
+  }
+}
