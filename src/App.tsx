@@ -22,6 +22,11 @@ import {
 } from 'lucide-react';
 import ChatWidget from './components/ChatWidget';
 import SamplePackModal from './components/SamplePackModal';
+import CookieBanner from './components/CookieBanner';
+import { Routes, Route, Link } from 'react-router-dom';
+import DetailPage from './pages/DetailPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import SupplyChainMap from './components/SupplyChainMap';
 
 const translations = {
   NL: {
@@ -51,7 +56,8 @@ const translations = {
     },
     break: "Schaalbare oplossingen. Zonder kwaliteitsverlies.",
     contact: { ready: "Uw logistieke keten vereenvoudigen?", title: "Elevate your corporate gifting.", desc: "Contacteer onze Senior Account Managers om te bespreken hoe H&O Worldwide uw promotionele efficiëntie kan verhogen.", quote: "Vraag een Sample Pack aan", call: "Contacteer Ons" },
-    footer: { desc: "H&O Worldwide Solutions is uw B2B partner in custom sourcing, ethical production en full-service merchandise logistics.", menu: "Navigatie", offices: "Operationele Hubs", hq: "Hoofdkantoor EU" }
+    footer: { desc: "H&O Worldwide Solutions is uw B2B partner in custom sourcing, ethical production en full-service merchandise logistics.", menu: "Navigatie", offices: "Operationele Hubs", hq: "Hoofdkantoor EU", privacy: "Privacybeleid & Cookies" },
+    cookie: { title: "Wij respecteren uw privacy", desc: "We gebruiken noodzakelijke cookies om de website goed te laten werken. Daarnaast gebruiken we optionele cookies voor analytische doeleinden om onze dienstverlening te verbeteren. Door op 'Weigeren' te klikken worden alleen noodzakelijke cookies geplaatst.", accept: "Beide Accepteren", reject: "Weiger Optioneel" }
   },
   EN: {
     nav: { about: "About Us", services: "Services", why: "Why H&O?", cases: "Portfolio", quote: "Request Quote" },
@@ -80,7 +86,8 @@ const translations = {
     },
     break: "Scalable solutions. Zero compromises.",
     contact: { ready: "Ready to simplify your supply chain?", title: "Elevate your corporate gifting.", desc: "Contact our Senior Account Managers to discuss how H&O Worldwide can elevate your promotional efficiency.", quote: "Request a Sample Pack", call: "Contact Us" },
-    footer: { desc: "H&O Worldwide Solutions is your B2B partner in custom sourcing, ethical production, and full-service merchandise logistics.", menu: "Navigation", offices: "Operational Hubs", hq: "Headquarters EU" }
+    footer: { desc: "H&O Worldwide Solutions is your B2B partner in custom sourcing, ethical production, and full-service merchandise logistics.", menu: "Navigation", offices: "Operational Hubs", hq: "Headquarters EU", privacy: "Privacy Policy & Cookies" },
+    cookie: { title: "We respect your privacy", desc: "We use essential cookies to make our site work. We also use optional cookies for analytics to improve our services. By clicking 'Reject', only strictly necessary cookies will be set.", accept: "Accept All", reject: "Reject Optional" }
   }
 };
 
@@ -123,18 +130,20 @@ export default function App() {
           <div className="flex justify-between items-center">
             {/* Logo */}
             <div className="flex items-center gap-2">
-              <Globe className={`w-8 h-8 ${isScrolled ? 'text-indigo-900' : 'text-white'}`} />
-              <span className={`font-extrabold text-xl tracking-tight ${isScrolled ? 'text-slate-900' : 'text-white'}`}>
-                H&O Worldwide
-              </span>
+              <a href="/" className="flex items-center gap-2">
+                <Globe className={`w-8 h-8 ${isScrolled ? 'text-indigo-900' : 'text-white'}`} />
+                <span className={`font-extrabold text-xl tracking-tight ${isScrolled ? 'text-slate-900' : 'text-white'}`}>
+                  H&O Worldwide
+                </span>
+              </a>
             </div>
 
             {/* Desktop Nav */}
             <div className="hidden md:flex items-center space-x-6">
-              <a href="#about" className={`text-sm font-medium transition-colors ${isScrolled ? 'text-slate-600 hover:text-indigo-600' : 'text-slate-200 hover:text-white'}`}>{t.nav.about}</a>
-              <a href="#services" className={`text-sm font-medium transition-colors ${isScrolled ? 'text-slate-600 hover:text-indigo-600' : 'text-slate-200 hover:text-white'}`}>{t.nav.services}</a>
-              <a href="#portfolio" className={`text-sm font-medium transition-colors ${isScrolled ? 'text-slate-600 hover:text-indigo-600' : 'text-slate-200 hover:text-white'}`}>{t.nav.cases}</a>
-              <a href="#why-us" className={`text-sm font-medium transition-colors ${isScrolled ? 'text-slate-600 hover:text-indigo-600' : 'text-slate-200 hover:text-white'}`}>{t.nav.why}</a>
+              <a href="/#about" className={`text-sm font-medium transition-colors ${isScrolled ? 'text-slate-600 hover:text-indigo-600' : 'text-slate-200 hover:text-white'}`}>{t.nav.about}</a>
+              <a href="/#services" className={`text-sm font-medium transition-colors ${isScrolled ? 'text-slate-600 hover:text-indigo-600' : 'text-slate-200 hover:text-white'}`}>{t.nav.services}</a>
+              <a href="/#portfolio" className={`text-sm font-medium transition-colors ${isScrolled ? 'text-slate-600 hover:text-indigo-600' : 'text-slate-200 hover:text-white'}`}>{t.nav.cases}</a>
+              <a href="/#why-us" className={`text-sm font-medium transition-colors ${isScrolled ? 'text-slate-600 hover:text-indigo-600' : 'text-slate-200 hover:text-white'}`}>{t.nav.why}</a>
               
               <div className={`flex items-center rounded-full p-1 border ml-4 ${isScrolled ? 'bg-slate-100 border-slate-200' : 'bg-white/10 border-white/10 backdrop-blur-sm'}`}>
                 <button
@@ -151,7 +160,7 @@ export default function App() {
                 </button>
               </div>
 
-              <a href="#contact" className={`ml-4 px-6 py-2.5 rounded-md text-sm font-semibold shadow-sm transition-all ${isScrolled ? 'bg-indigo-900 text-white hover:bg-indigo-800' : 'bg-white text-indigo-900 hover:bg-slate-100'}`}>
+              <a href="/#contact" className={`ml-4 px-6 py-2.5 rounded-md text-sm font-semibold shadow-sm transition-all ${isScrolled ? 'bg-indigo-900 text-white hover:bg-indigo-800' : 'bg-white text-indigo-900 hover:bg-slate-100'}`}>
                 {t.nav.quote}
               </a>
             </div>
@@ -188,24 +197,27 @@ export default function App() {
                 </button>
               </div>
             </div>
-            <a href="#about" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 font-medium px-4 py-2 hover:text-indigo-600 border-l-2 border-transparent hover:border-indigo-600">{t.nav.about}</a>
-            <a href="#services" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 font-medium px-4 py-2 hover:text-indigo-600 border-l-2 border-transparent hover:border-indigo-600">{t.nav.services}</a>
-            <a href="#portfolio" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 font-medium px-4 py-2 hover:text-indigo-600 border-l-2 border-transparent hover:border-indigo-600">{t.nav.cases}</a>
-            <a href="#why-us" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 font-medium px-4 py-2 hover:text-indigo-600 border-l-2 border-transparent hover:border-indigo-600">{t.nav.why}</a>
-            <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="bg-indigo-900 hover:bg-indigo-800 text-white text-center py-4 rounded-lg font-semibold mt-4 shadow-sm w-full mx-auto">
+            <a href="/#about" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 font-medium px-4 py-2 hover:text-indigo-600 border-l-2 border-transparent hover:border-indigo-600">{t.nav.about}</a>
+            <a href="/#services" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 font-medium px-4 py-2 hover:text-indigo-600 border-l-2 border-transparent hover:border-indigo-600">{t.nav.services}</a>
+            <a href="/#portfolio" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 font-medium px-4 py-2 hover:text-indigo-600 border-l-2 border-transparent hover:border-indigo-600">{t.nav.cases}</a>
+            <a href="/#why-us" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 font-medium px-4 py-2 hover:text-indigo-600 border-l-2 border-transparent hover:border-indigo-600">{t.nav.why}</a>
+            <a href="/#contact" onClick={() => setMobileMenuOpen(false)} className="bg-indigo-900 hover:bg-indigo-800 text-white text-center py-4 rounded-lg font-semibold mt-4 shadow-sm w-full mx-auto">
               {t.nav.quote}
             </a>
           </div>
         )}
       </nav>
 
-      {/* Hero Section */}
-      <section id="hero" className="relative min-h-[95vh] flex items-center justify-center overflow-hidden">
+      <Routes>
+        <Route path="/" element={
+          <>
+            {/* Hero Section */}
+            <section id="hero" className="relative min-h-[95vh] flex items-center justify-center overflow-hidden">
         {/* Background Image & Overlay */}
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://picsum.photos/seed/premium-giftbox-logistics/1920/1080?grayscale" 
-            alt="Worldwide Logistics and Premium Merchandise" 
+            src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1920&auto=format&fit=crop" 
+            alt="Corporate Branding and Premium Merchandise" 
             className="w-full h-full object-cover object-center translate-y-0"
             referrerPolicy="no-referrer"
           />
@@ -287,8 +299,8 @@ export default function App() {
             >
               <div className="absolute inset-0 bg-slate-100 rounded-2xl overflow-hidden shadow-xl border border-slate-200">
                 <img 
-                  src="https://picsum.photos/seed/luxury-business-gadgets/800/1000?grayscale" 
-                  alt="Minimalist product design" 
+                  src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=800&auto=format&fit=crop" 
+                  alt="Modern global logistics and warehousing" 
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
                 />
@@ -326,56 +338,68 @@ export default function App() {
             className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8"
           >
             {/* Service 1 */}
-            <motion.div variants={fadeIn} className="bg-white p-10 border border-slate-200 hover:shadow-xl transition-all duration-300 group rounded-2xl">
-              <div className="w-14 h-14 bg-indigo-50 border border-indigo-100 rounded-lg flex items-center justify-center mb-8 group-hover:bg-indigo-600 transition-colors duration-300">
-                <Factory className="w-6 h-6 text-indigo-600 group-hover:text-white" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-4">{t.services.s1.title}</h3>
-              <p className="text-slate-600 leading-relaxed font-medium">
-                {t.services.s1.desc}
-              </p>
-            </motion.div>
+            <Link to="/details/services/s1">
+              <motion.div variants={fadeIn} className="bg-white p-10 border border-slate-200 hover:shadow-xl transition-all duration-300 group rounded-2xl h-full flex flex-col">
+                <div className="w-14 h-14 bg-indigo-50 border border-indigo-100 rounded-lg flex items-center justify-center mb-8 group-hover:bg-indigo-600 transition-colors duration-300">
+                  <Factory className="w-6 h-6 text-indigo-600 group-hover:text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-4">{t.services.s1.title}</h3>
+                <p className="text-slate-600 leading-relaxed font-medium">
+                  {t.services.s1.desc}
+                </p>
+                <div className="mt-auto pt-6 text-indigo-600 font-bold text-sm flex items-center opacity-0 group-hover:opacity-100 transition-opacity">Meer info <ChevronRight className="w-4 h-4 ml-1"/></div>
+              </motion.div>
+            </Link>
 
             {/* Service 2 */}
-            <motion.div variants={fadeIn} className="bg-white p-10 border border-slate-200 hover:shadow-xl transition-all duration-300 group rounded-2xl flex flex-col">
-              <div className="w-14 h-14 bg-indigo-50 border border-indigo-100 rounded-lg flex items-center justify-center mb-8 group-hover:bg-indigo-600 transition-colors duration-300">
-                <Globe className="w-6 h-6 text-indigo-600 group-hover:text-white" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-4">{t.services.s2.title}</h3>
-              <p className="text-slate-600 leading-relaxed font-medium mb-8">
-                {t.services.s2.desc}
-              </p>
-              <div className="flex flex-wrap gap-3 mt-auto">
-                <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-slate-600 bg-slate-100 px-3 py-2 rounded border border-slate-200">
-                  <Truck className="w-3.5 h-3.5 text-indigo-600" /> Turkije (Fast)
+            <Link to="/details/services/s2">
+              <motion.div variants={fadeIn} className="bg-white p-10 border border-slate-200 hover:shadow-xl transition-all duration-300 group rounded-2xl h-full flex flex-col">
+                <div className="w-14 h-14 bg-indigo-50 border border-indigo-100 rounded-lg flex items-center justify-center mb-8 group-hover:bg-indigo-600 transition-colors duration-300">
+                  <Globe className="w-6 h-6 text-indigo-600 group-hover:text-white" />
                 </div>
-                <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-slate-600 bg-slate-100 px-3 py-2 rounded border border-slate-200">
-                   <Plane className="w-3.5 h-3.5 text-indigo-600" /> China (Scale)
+                <h3 className="text-xl font-bold text-slate-900 mb-4">{t.services.s2.title}</h3>
+                <p className="text-slate-600 leading-relaxed font-medium mb-8">
+                  {t.services.s2.desc}
+                </p>
+                <div className="flex flex-wrap gap-3 mt-auto">
+                  <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-slate-600 bg-slate-100 px-3 py-2 rounded border border-slate-200">
+                    <Truck className="w-3.5 h-3.5 text-indigo-600" /> Turkije (Fast)
+                  </div>
+                  <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-slate-600 bg-slate-100 px-3 py-2 rounded border border-slate-200">
+                     <Plane className="w-3.5 h-3.5 text-indigo-600" /> China (Scale)
+                  </div>
                 </div>
-              </div>
-            </motion.div>
+                <div className="mt-6 text-indigo-600 font-bold text-sm flex items-center opacity-0 group-hover:opacity-100 transition-opacity">Meer info <ChevronRight className="w-4 h-4 ml-1"/></div>
+              </motion.div>
+            </Link>
 
             {/* Service 3 */}
-            <motion.div variants={fadeIn} className="bg-indigo-900 p-10 shadow-xl group rounded-2xl border border-indigo-800">
-              <div className="w-14 h-14 bg-indigo-800 rounded-lg flex items-center justify-center mb-8">
-                <Truck className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-xl font-bold text-white mb-4">{t.services.s3.title}</h3>
-              <p className="text-indigo-200 leading-relaxed font-medium">
-                {t.services.s3.desc}
-              </p>
-            </motion.div>
+            <Link to="/details/services/s3">
+              <motion.div variants={fadeIn} className="bg-indigo-900 p-10 shadow-xl group rounded-2xl border border-indigo-800 h-full flex flex-col hover:bg-indigo-800 transition-colors">
+                <div className="w-14 h-14 bg-indigo-800 rounded-lg flex items-center justify-center mb-8">
+                  <Truck className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-4">{t.services.s3.title}</h3>
+                <p className="text-indigo-200 leading-relaxed font-medium">
+                  {t.services.s3.desc}
+                </p>
+                <div className="mt-auto pt-6 text-indigo-300 font-bold text-sm flex items-center opacity-0 group-hover:opacity-100 transition-opacity">Meer info <ChevronRight className="w-4 h-4 ml-1"/></div>
+              </motion.div>
+            </Link>
 
             {/* Service 4 */}
-            <motion.div variants={fadeIn} className="bg-white p-10 border border-slate-200 hover:shadow-xl transition-all duration-300 group rounded-2xl">
-              <div className="w-14 h-14 bg-indigo-50 border border-indigo-100 rounded-lg flex items-center justify-center mb-8 group-hover:bg-indigo-600 transition-colors duration-300">
-                <ShieldCheck className="w-6 h-6 text-indigo-600 group-hover:text-white" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-4">{t.services.s4.title}</h3>
-              <p className="text-slate-600 leading-relaxed font-medium">
-                {t.services.s4.desc}
-              </p>
-            </motion.div>
+            <Link to="/details/services/s4">
+              <motion.div variants={fadeIn} className="bg-white p-10 border border-slate-200 hover:shadow-xl transition-all duration-300 group rounded-2xl h-full flex flex-col">
+                <div className="w-14 h-14 bg-indigo-50 border border-indigo-100 rounded-lg flex items-center justify-center mb-8 group-hover:bg-indigo-600 transition-colors duration-300">
+                  <ShieldCheck className="w-6 h-6 text-indigo-600 group-hover:text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-4">{t.services.s4.title}</h3>
+                <p className="text-slate-600 leading-relaxed font-medium">
+                  {t.services.s4.desc}
+                </p>
+                <div className="mt-auto pt-6 text-indigo-600 font-bold text-sm flex items-center opacity-0 group-hover:opacity-100 transition-opacity">Meer info <ChevronRight className="w-4 h-4 ml-1"/></div>
+              </motion.div>
+            </Link>
           </motion.div>
         </div>
       </section>
@@ -395,32 +419,34 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {t.cases.items.map((item: any, i: number) => {
                const images = [
-                  "https://picsum.photos/seed/giftbox-black/800/600",
-                  "https://picsum.photos/seed/tech-backpack/800/600",
-                  "https://picsum.photos/seed/summer-towels/800/600"
+                  "https://images.unsplash.com/photo-1544396821-4dd40b938ad3?q=80&w=800&h=600&auto=format&fit=crop",
+                  "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=800&h=600&auto=format&fit=crop",
+                  "https://images.unsplash.com/photo-1523381294911-8d3cead13475?q=80&w=800&h=600&auto=format&fit=crop"
                ];
                return (
-                <motion.div 
-                  key={i} 
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1, duration: 0.5 }}
-                  className="bg-white rounded-2xl overflow-hidden shadow-lg border border-slate-200 group"
-                >
-                  <div className="aspect-[4/3] overflow-hidden bg-slate-100 flex items-center justify-center">
-                    <img 
-                      src={images[i]} 
-                      alt={item.title} 
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      referrerPolicy="no-referrer"
-                    />
-                  </div>
-                  <div className="p-8">
-                    <h3 className="text-xl font-bold text-slate-900 mb-4">{item.title}</h3>
-                    <p className="text-slate-600 font-medium leading-relaxed">{item.desc}</p>
-                  </div>
-                </motion.div>
+                <Link to={`/details/cases/${i}`} key={i}>
+                  <motion.div 
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1, duration: 0.5 }}
+                    className="bg-white rounded-2xl overflow-hidden shadow-lg border border-slate-200 group h-full flex flex-col hover:border-indigo-100 transition-all"
+                  >
+                    <div className="aspect-[4/3] overflow-hidden bg-slate-100 flex items-center justify-center">
+                      <img 
+                        src={images[i]} 
+                        alt={item.title} 
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        referrerPolicy="no-referrer"
+                      />
+                    </div>
+                    <div className="p-8 flex flex-col flex-1">
+                      <h3 className="text-xl font-bold text-slate-900 mb-4 group-hover:text-indigo-900 transition-colors">{item.title}</h3>
+                      <p className="text-slate-600 font-medium leading-relaxed">{item.desc}</p>
+                      <div className="mt-auto pt-6 text-indigo-600 font-bold text-sm flex items-center opacity-0 group-hover:opacity-100 transition-opacity">Meer info <ChevronRight className="w-4 h-4 ml-1"/></div>
+                    </div>
+                  </motion.div>
+                </Link>
                );
             })}
           </div>
@@ -440,78 +466,83 @@ export default function App() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
-            {t.why.features.map((feature, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
-                className="flex flex-col"
-              >
-                <div className="mt-1 flex items-start">
-                  <CheckCircle2 className="w-8 h-8 text-indigo-600 stroke-[2px] mb-4" />
-                </div>
-                <h4 className="text-lg font-bold text-slate-900 mb-3">{feature.title}</h4>
-                <p className="text-slate-600 leading-relaxed text-sm font-medium">{feature.desc}</p>
-              </motion.div>
+            {t.why.features.map((feature: any, i: number) => (
+              <Link to={`/details/guarantees/${i}`} key={i}>
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1, duration: 0.5 }}
+                  className="flex flex-col group hover:bg-slate-50 p-4 -ml-4 rounded-xl transition-colors h-full"
+                >
+                  <div className="mt-1 flex items-start">
+                    <CheckCircle2 className="w-8 h-8 text-indigo-600 stroke-[2px] mb-4 group-hover:scale-110 transition-transform" />
+                  </div>
+                  <h4 className="text-lg font-bold text-slate-900 mb-3 group-hover:text-indigo-900 transition-colors">{feature.title}</h4>
+                  <p className="text-slate-600 leading-relaxed text-sm font-medium">{feature.desc}</p>
+                  <div className="mt-4 text-indigo-600 font-bold text-sm flex items-center opacity-0 group-hover:opacity-100 transition-opacity">Meer info <ChevronRight className="w-4 h-4 ml-1"/></div>
+                </motion.div>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
       {/* Image break - Worldwide scale */}
-      <section className="h-[40vh] min-h-[400px] relative">
-         <img 
-            src="https://picsum.photos/seed/global-shipping-container/1920/800?grayscale" 
-            alt="Worldwide distribution center" 
-            className="w-full h-full object-cover"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute inset-0 bg-indigo-900/60 mix-blend-multiply"></div>
-          <div className="absolute inset-0 flex items-center justify-center text-center p-4">
-             <h2 className="text-4xl md:text-5xl font-extrabold text-white max-w-3xl">
-                {t.break}
-             </h2>
+      <section className="h-[40vh] min-h-[500px] relative bg-slate-900 border-t border-slate-800 overflow-hidden shadow-2xl">
+          <SupplyChainMap />
+          {/* Text positioned at bottom left to clear the Eurasian map lines and balance visual weight */}
+          <div className="absolute inset-0 flex items-end justify-start p-8 md:p-12 lg:p-20 pointer-events-none z-20">
+             <div className="max-w-2xl">
+               <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white drop-shadow-[0_4px_12px_rgba(0,0,0,1)] text-left leading-tight">
+                  {t.break}
+               </h2>
+             </div>
           </div>
       </section>
 
       {/* Contact / CTA Section */}
-      <section id="contact" className="py-24 bg-slate-900 text-white border-t border-slate-800">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="text-xs font-bold tracking-widest text-indigo-400 uppercase mb-4 block">{t.contact.ready}</span>
+      <section id="contact" className="py-24 bg-gradient-to-br from-indigo-600 to-blue-800 text-white relative">
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <span className="text-xs font-bold tracking-widest text-indigo-200 uppercase mb-4 block">{t.contact.ready}</span>
           <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight text-white mb-8">
             {t.contact.title}
           </h2>
-          <p className="text-lg text-slate-400 font-medium mb-12 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg text-indigo-100 font-medium mb-12 max-w-2xl mx-auto leading-relaxed">
             {t.contact.desc}
           </p>
           
           <div className="flex flex-col sm:flex-row justify-center gap-4 mb-10">
             <button 
               onClick={() => setIsModalOpen(true)}
-              className="inline-flex justify-center items-center gap-2 px-8 py-4 bg-indigo-600 text-white hover:bg-indigo-500 transition-colors rounded-lg font-bold text-sm shadow-md hover:shadow-lg"
+              className="inline-flex justify-center items-center gap-2 px-8 py-4 bg-white text-indigo-700 hover:bg-slate-100 transition-colors rounded-lg font-bold text-sm shadow-xl"
             >
               <Package className="w-4 h-4" />
               {t.contact.quote}
             </button>
-            <a href="mailto:info@howorldwide.com" className="inline-flex justify-center items-center gap-2 px-8 py-4 border border-slate-700 bg-slate-800 text-white hover:bg-slate-700 hover:border-slate-600 transition-colors rounded-lg font-bold text-sm shadow-sm">
+            <a href="mailto:info@howorldwide.com" className="inline-flex justify-center items-center gap-2 px-8 py-4 border border-indigo-400 bg-indigo-900/30 text-white hover:bg-indigo-900/60 transition-colors rounded-lg font-bold text-sm shadow-sm">
               {t.contact.call}
             </a>
           </div>
 
-          <div className="flex justify-center border-t border-slate-800 pt-10">
-            <div className="flex flex-col items-center gap-2 text-slate-400">
-               <span className="font-bold text-slate-300">Of bereik ons direct:</span>
+          <div className="flex justify-center border-t border-indigo-400/30 pt-10">
+            <div className="flex flex-col items-center gap-2 text-indigo-100">
+               <span className="font-bold text-white">Of bereik ons direct:</span>
                <span>info@howorldwide.com</span>
                <span>+31 (0) 20 123 4567</span>
             </div>
           </div>
         </div>
       </section>
+          </>
+        } />
+        <Route path="/details/:type/:id" element={<DetailPage language={language} />} />
+        <Route path="/privacy" element={<PrivacyPolicyPage language={language} />} />
+      </Routes>
 
       {/* Footer */}
-      <footer id="footer" className="bg-slate-900 py-12 text-slate-400 border-t border-slate-800 text-xs md:text-sm">
+      <footer id="footer" className="bg-slate-950 py-12 text-slate-400 text-xs md:text-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-2">
              <div className="flex items-center gap-2 mb-6">
@@ -531,10 +562,11 @@ export default function App() {
           <div>
             <h5 className="text-white font-semibold mb-4 uppercase tracking-wider text-xs">{t.footer.menu}</h5>
             <ul className="space-y-3">
-              <li><a href="#about" className="hover:text-white transition-colors">{t.nav.about}</a></li>
-              <li><a href="#services" className="hover:text-white transition-colors">{t.nav.services}</a></li>
-              <li><a href="#why-us" className="hover:text-white transition-colors">{t.nav.why}</a></li>
-              <li><a href="#contact" className="hover:text-white transition-colors">Contact</a></li>
+              <li><Link to="/#about" className="hover:text-white transition-colors">{t.nav.about}</Link></li>
+              <li><Link to="/#services" className="hover:text-white transition-colors">{t.nav.services}</Link></li>
+              <li><Link to="/#why-us" className="hover:text-white transition-colors">{t.nav.why}</Link></li>
+              <li><Link to="/#contact" className="hover:text-white transition-colors">Contact</Link></li>
+              <li><Link to="/privacy" className="hover:text-white transition-colors text-indigo-400">{t.footer.privacy}</Link></li>
             </ul>
           </div>
           
@@ -556,6 +588,8 @@ export default function App() {
         onClose={() => setIsModalOpen(false)} 
         language={language}
       />
+      
+      <CookieBanner language={language} translations={translations} />
     </div>
   );
 }
