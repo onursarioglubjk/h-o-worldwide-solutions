@@ -1,0 +1,62 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} { allow read, write: if false; }
+
+    function isValidId(id) { 
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); 
+    }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    function isSignedIn() { return request.auth != null; }
+    
+    // We only use Google Provider so email is verified by default through Google, but we check anyway.
+    function isVerified() { return isSignedIn() && request.auth.token.email_verified == true; }
+    function isAdmin() { return isVerified() && (request.auth.token.email == 'Sarioglu13@gmail.com' || exists(/databases/$(database)/documents/admins/$(request.auth.uid))); }
+
+    function isValidSampleRequest(data) {
+      return data.keys().hasAll(['companyName', 'contactName', 'email', 'status', 'createdAt'])
+        && data.companyName is string && data.companyName.size() <= 200
+        && data.contactName is string && data.contactName.size() <= 200
+        && data.email is string && data.email.size() <= 200 && data.email.matches('^[^@]+@[^@]+\\.[^@]+$')
+        && data.status is string && data.status in ['new', 'contacted', 'archived']
+        && data.createdAt is timestamp
+        // Optionals
+        && (data.keys().hasAll(['phone']) ? (data.phone is string && data.phone.size() <= 50) : true)
+        && (data.keys().hasAll(['interest']) ? (data.interest is string && data.interest.size() <= 200) : true)
+        && (data.keys().hasAll(['volume']) ? (data.volume is string && data.volume.size() <= 50) : true)
+        && (data.keys().hasAll(['message']) ? (data.message is string && data.message.size() <= 2000) : true);
+    }
+
+    match /requests/{requestId} {
+      // Anyone can create (submit form)
+      allow create: if isValidId(requestId) 
+        && isValidSampleRequest(incoming())
+        // Strict exact keys check to prevent payload poisoning
+        // 5 required keys. Max 9 keys if all optionals are passed.
+        && incoming().keys().hasOnly(['companyName', 'contactName', 'email', 'phone', 'interest', 'volume', 'message', 'status', 'createdAt'])
+        && incoming().createdAt == request.time
+        && incoming().status == 'new';
+
+      // Only admins can read
+      allow get: if isValidId(requestId) && isAdmin();
+      allow list: if isAdmin(); // Note: Since admins have full access to view, we allow them to list all.
+
+      // Only admins can update the status/notes
+      allow update: if isValidId(requestId) 
+        && isAdmin()
+        && isValidSampleRequest(incoming())
+        // Cannot modify createdAt
+        && incoming().createdAt == existing().createdAt
+        // Admins can update status
+        && incoming().diff(existing()).affectedKeys().hasOnly(['status']);
+      
+      allow delete: if isValidId(requestId) && isAdmin();
+    }
+
+    match /admins/{userId} {
+      allow read: if isValidId(userId) && isSignedIn() && request.auth.uid == userId;
+      allow write: if false; // Only manageable through Firebase Console or Admin SDK
+    }
+  }
+}

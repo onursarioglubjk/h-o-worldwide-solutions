@@ -1,0 +1,41 @@
+{
+  "entities": {
+    "SampleRequest": {
+      "title": "SampleRequest",
+      "description": "A request from a potential client for a sample pack or quote.",
+      "type": "object",
+      "properties": {
+        "companyName": { "type": "string", "description": "Name of the company" },
+        "contactName": { "type": "string", "description": "Name of the contact person" },
+        "email": { "type": "string", "description": "Contact email" },
+        "phone": { "type": "string", "description": "Contact phone" },
+        "interest": { "type": "string", "description": "Primary area of interest" },
+        "volume": { "type": "string", "description": "Expected volume" },
+        "message": { "type": "string", "description": "Additional comments" },
+        "status": { "type": "string", "description": "Status of the request (new, contacted, archived)", "enum": ["new", "contacted", "archived"] },
+        "createdAt": { "type": "timestamp", "description": "Creation time" }
+      },
+      "required": ["companyName", "contactName", "email", "status", "createdAt"]
+    },
+    "Admin": {
+      "title": "Admin",
+      "description": "An administrator user who can view and manage requests.",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "createdAt": { "type": "timestamp" }
+      },
+      "required": ["email", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/requests/{requestId}": {
+      "schema": { "$ref": "SampleRequest" },
+      "description": "Stores incoming sample pack and quote requests from the website."
+    },
+    "/admins/{userId}": {
+      "schema": { "$ref": "Admin" },
+      "description": "Stores authorized admin users."
+    }
+  }
+}
