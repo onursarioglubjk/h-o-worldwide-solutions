@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Shield } from 'lucide-react';
 import { translations } from '../translations';
+import SEO from '../components/SEO';
 
 export default function PrivacyPolicyPage({ language }: { language: 'NL' | 'EN' }) {
   useEffect(() => {
@@ -86,6 +87,10 @@ export default function PrivacyPolicyPage({ language }: { language: 'NL' | 'EN' 
 
   return (
     <div className="min-h-screen bg-slate-50 pt-28 pb-20 px-4 sm:px-6 lg:px-8">
+      <SEO 
+        title={`${t.title} | H&O Worldwide`} 
+        description={t.sections[0].body.substring(0, 150) + "..."} 
+      />
       <div className="max-w-4xl mx-auto">
         <Link to="/" className="inline-flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-indigo-600 mb-8 transition-colors">
           <ArrowLeft className="w-4 h-4" /> {t.back}

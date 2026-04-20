@@ -24,6 +24,7 @@ import ChatWidget from './components/ChatWidget';
 import SamplePackModal from './components/SamplePackModal';
 import CookieBanner from './components/CookieBanner';
 import { Routes, Route, Link } from 'react-router-dom';
+import SEO from './components/SEO';
 import DetailPage from './pages/DetailPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import SupplyChainMap from './components/SupplyChainMap';
@@ -211,6 +212,10 @@ export default function App() {
       <Routes>
         <Route path="/" element={
           <>
+            <SEO 
+              title="H&O Worldwide - Premium Corporate Sourcing & Merchandise" 
+              description={t.hero.desc} 
+            />
             {/* Hero Section */}
             <section id="hero" className="relative min-h-[95vh] flex items-center justify-center overflow-hidden">
         {/* Background Image & Overlay */}
@@ -476,7 +481,7 @@ export default function App() {
                   className="flex flex-col group hover:bg-slate-50 p-4 -ml-4 rounded-xl transition-colors h-full"
                 >
                   <div className="mt-1 flex items-start">
-                    <CheckCircle2 className="w-8 h-8 text-indigo-600 stroke-[2px] mb-4 group-hover:scale-110 transition-transform" />
+                    <CheckCircle2 className="w-8 h-8 text-indigo-600 stroke-[2px] mb-4 transition-all duration-300 will-change-transform group-hover:scale-125 group-hover:-translate-y-1.5" />
                   </div>
                   <h4 className="text-lg font-bold text-slate-900 mb-3 group-hover:text-indigo-900 transition-colors">{feature.title}</h4>
                   <p className="text-slate-600 leading-relaxed text-sm font-medium">{feature.desc}</p>
