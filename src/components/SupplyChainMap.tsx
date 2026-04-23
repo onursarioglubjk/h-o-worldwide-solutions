@@ -20,9 +20,9 @@ const lines = [
   { from: markers[0].coordinates, to: markers[2].coordinates }  // BE to CN
 ];
 
-export default function SupplyChainMap() {
+export default function SupplyChainMap({ bgTransparent = false }: { bgTransparent?: boolean } = {}) {
   return (
-    <div className="w-full h-full absolute inset-0 bg-slate-900 overflow-hidden">
+    <div className={`w-full h-full absolute inset-0 ${bgTransparent ? 'bg-transparent' : 'bg-slate-900'} overflow-hidden`}>
       <style>{`
         @keyframes dashAnim {
           from { stroke-dashoffset: 24; }

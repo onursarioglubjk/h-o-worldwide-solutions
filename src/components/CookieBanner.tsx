@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ShieldCheck, Cookie } from 'lucide-react';
 
+import { Language } from '../translations';
+
 interface CookieBannerProps {
-  language: 'NL' | 'EN';
-  translations: Record<'NL' | 'EN', any>;
+  language: Language;
+  translations: Record<Language, any>;
 }
 
 export default function CookieBanner({ language, translations }: CookieBannerProps) {

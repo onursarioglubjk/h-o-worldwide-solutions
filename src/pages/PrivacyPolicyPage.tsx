@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Shield } from 'lucide-react';
-import { translations } from '../translations';
+import { translations, Language } from '../translations';
 import SEO from '../components/SEO';
 
-export default function PrivacyPolicyPage({ language }: { language: 'NL' | 'EN' }) {
+export default function PrivacyPolicyPage({ language }: { language: Language }) {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -42,7 +42,7 @@ export default function PrivacyPolicyPage({ language }: { language: 'NL' | 'EN' 
         },
         {
           title: "7. Contact",
-          body: "Heeft u vragen of opmerkingen over ons Privacybeleid? Neem contact op via:\nE-mail: privacy@howorldwide.com\nTelefoon: +31 (0) 20 123 4567\nPost: [Vestigingsadres Hoofdkantoor EU]"
+          body: "Heeft u vragen of opmerkingen over ons Privacybeleid? Neem contact op via:\nE-mail: privacy@howorldwide.com\nTelefoon: +32 (0) 483 11 03 96\nPost: [Vestigingsadres Hoofdkantoor EU]"
         }
       ]
     },
@@ -77,13 +77,13 @@ export default function PrivacyPolicyPage({ language }: { language: 'NL' | 'EN' 
         },
         {
           title: "7. Contact",
-          body: "If you have any questions or concerns regarding our Privacy Policy? Reach out to us via:\nEmail: privacy@howorldwide.com\nPhone: +31 (0) 20 123 4567\nMail: [EU Headquarters Address]"
+          body: "If you have any questions or concerns regarding our Privacy Policy? Reach out to us via:\nEmail: privacy@howorldwide.com\nPhone: +32 (0) 483 11 03 96\nMail: [EU Headquarters Address]"
         }
       ]
     }
   };
 
-  const t = content[language];
+  const t = (content as any)[language] || content.EN;
 
   return (
     <div className="min-h-screen bg-slate-50 pt-28 pb-20 px-4 sm:px-6 lg:px-8">

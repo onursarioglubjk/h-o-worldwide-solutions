@@ -3,11 +3,12 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, Send, Package, CheckCircle2, Loader2 } from 'lucide-react';
 import { db } from '../lib/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { Language } from '../translations';
 
 interface SamplePackModalProps {
   isOpen: boolean;
   onClose: () => void;
-  language: 'NL' | 'EN';
+  language: Language;
 }
 
 export default function SamplePackModal({ isOpen, onClose, language }: SamplePackModalProps) {

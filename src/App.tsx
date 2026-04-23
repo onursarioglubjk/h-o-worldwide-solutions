@@ -18,86 +18,35 @@ import {
   ArrowUpRight,
   TrendingUp,
   Plane,
-  Scale
+  Scale,
+  ChevronDown
 } from 'lucide-react';
-import ChatWidget from './components/ChatWidget';
+import { Routes, Route, Link } from 'react-router-dom';
 import SamplePackModal from './components/SamplePackModal';
 import CookieBanner from './components/CookieBanner';
-import { Routes, Route, Link } from 'react-router-dom';
 import SEO from './components/SEO';
 import DetailPage from './pages/DetailPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import SupplyChainMap from './components/SupplyChainMap';
-
-const translations = {
-  NL: {
-    nav: { about: "Over Ons", services: "Diensten", why: "Waarom H&O?", cases: "Portfolio", quote: "Offerte Aanvragen" },
-    hero: { spoc: "Supply Chain & Merchandise Partner", p1: "H&O Worldwide ", p2: "optimaliseert", p3: " uw merkvisibiliteit.", desc: "Wij ontwerpen en produceren hoogwaardige merchandise-oplossingen waarbij we de volledige logistieke keten overnemen. Efficiëntie en ontzorging voor corporates en premium merken.", quote: "Vraag een Sample Pack aan", discover: "Bekijk de voordelen" },
-    about: { title: "Van idee naar fysiek premium product, zonder zorgen.", p1: "Grote organisaties hebben geen behoefte aan een standaard catalogus. Ze zoeken een strategische partner die de merkidentiteit feilloos vertaalt naar tastbare producten en de volledige executie overneemt.", p2: "Door de inzet van in-house designers en krachtige productiehubs in Turkije en China zorgen wij voor oplossingen die niet alleen esthetisch perfect zijn, maar ook schaalbaar en conform alle internationale normen.", p3: "Wij nemen de volledige logistieke keten over. U behoudt de regie, wij doen het werk.", stat1: "100%", stat2: "Ontzorging &\nCompliance Garantié" },
-    services: { subtitle: "Onze Expertise", title: "End-to-End Sourcing Oplossingen", viewAll: "Bekijk Alle Mogelijkheden",
-      s1: { title: "Custom Made Productie", desc: "Volledig maatwerk dat aansluit bij uw brand guidelines. Van de juiste Pantone-kleur tot doordachte materiaalkeuze voor een premium positionering." },
-      s2: { title: "Strategische Hubs", desc: "Onze focus-zones: Turkije voor hoogwaardig textiel en ultra-snelle levering (near-shoring), China voor technologische gadgets en maximale schaalvoordelen." },
-      s3: { title: "Full-Service Logistiek", desc: "Efficiëntie is key. Na de productiefase dragen wij zorg voor QC, douane-afhandeling, warehousing en de uiteindelijke last-mile delivery." },
-      s4: { title: "Kwaliteit & Ethiek", desc: "Absolute compliance-zekerheid. Al onze partnerfabrieken opereren volgens strikte EU-normen (incl. CE-markeringen) en strikte sociale audits." }
-    },
-    cases: { subtitle: "Concept Cases", title: "Premium oplossingen, tastbaar gemaakt", 
-      items: [
-        { title: "Consultancy Onboarding Box", desc: "Luxe matzwarte geschenkdoos met Moleskine-achtige notitieboeken, premium pennen en een gepersonaliseerde powerbank. Volledig in lijn met ingetogen corporate identiteit." },
-        { title: "Tech Event Swag", desc: "Duurzaam geproduceerde rPET backpacks, gecombineerd met draadloze snelladers (CE gecertificeerd) van de hoogste kwaliteit, direct geleverd op locatie." },
-        { title: "FMCG Zomerpromotie", desc: "Volume-ordening van badstof handdoeken (geproduceerd in Turkije voor snelle marktlancering) en hoogwaardige koeltassen voor nationale naamsbekendheid." }
-      ]
-    },
-    why: { title: "De H&O Garantie", desc: "Waarom grote spelers ons hun promotionele inkoop en distributie toevertrouwen.",
-      features: [
-        { title: "Ontzorging van A tot Z", desc: "Wij elimineren de complexiteit. Geen kopzorgen over importheffingen, defecten of communicatie. Wij zijn uw dedicated SPOC." },
-        { title: "Transparante Schaalvoordelen", desc: "We elimineren de tussenlaag. Onze directe inkoop en volume bundling garanderen de scherpste procurement-voorwaarden." },
-        { title: "Europese Compliance en Kwaliteit", desc: "Van CE-markeringen op elektronica tot BSCI-gecertificeerde kleding, wij leveren 100% veiligheid aan uw inkoopafdeling." },
-        { title: "Snelheid (Near-Shoring)", desc: "Via onze Turkse textielcentra kunnen we ongekend snel schakelen wanneer er onmiddellijk op markttrends gereageerd moet worden." }
-      ]
-    },
-    break: "Schaalbare oplossingen. Zonder kwaliteitsverlies.",
-    contact: { ready: "Uw logistieke keten vereenvoudigen?", title: "Elevate your corporate gifting.", desc: "Contacteer onze Senior Account Managers om te bespreken hoe H&O Worldwide uw promotionele efficiëntie kan verhogen.", quote: "Vraag een Sample Pack aan", call: "Contacteer Ons" },
-    footer: { desc: "H&O Worldwide Solutions is uw B2B partner in custom sourcing, ethical production en full-service merchandise logistics.", menu: "Navigatie", offices: "Operationele Hubs", hq: "Hoofdkantoor EU", privacy: "Privacybeleid & Cookies" },
-    cookie: { title: "Wij respecteren uw privacy", desc: "We gebruiken noodzakelijke cookies om de website goed te laten werken. Daarnaast gebruiken we optionele cookies voor analytische doeleinden om onze dienstverlening te verbeteren. Door op 'Weigeren' te klikken worden alleen noodzakelijke cookies geplaatst.", accept: "Beide Accepteren", reject: "Weiger Optioneel" }
-  },
-  EN: {
-    nav: { about: "About Us", services: "Services", why: "Why H&O?", cases: "Portfolio", quote: "Request Quote" },
-    hero: { spoc: "Supply Chain & Merchandise Partner", p1: "H&O Worldwide ", p2: "optimizes", p3: " your brand visibility.", desc: "We design and produce high-end merchandise solutions while taking over the entire logistics chain. Efficiency and unburdening for corporates and premium brands.", quote: "Request a Sample Pack", discover: "Discover the benefits" },
-    about: { title: "From concept to premium physical product, hassle-free.", p1: "Large organizations do not need a standard catalog. They seek a strategic partner that translates their brand identity into tangible products seamlessly.", p2: "By deploying in-house designers and powerful production hubs in Turkey and China, we ensure solutions that are aesthetically perfect, scalable, and fully compliant with international norms.", p3: "We take full control of the supply chain. You keep the direction, we do the work.", stat1: "100%", stat2: "Unburdening &\nCompliance Guarantee" },
-    services: { subtitle: "Our Expertise", title: "End-to-End Sourcing Solutions", viewAll: "View All Options",
-      s1: { title: "Custom Made Production", desc: "Fully tailored to your brand guidelines. From exact Pantone matching to deliberate material choices for premium positioning." },
-      s2: { title: "Strategic Hubs", desc: "Our core areas: Turkey for premium textiles and ultra-fast near-shoring, China for tech gadgets and maximum economies of scale." },
-      s3: { title: "Full-Service Logistics", desc: "Efficiency is key. Post-production, we handle QC, customs clearance, warehousing, and the ultimate last-mile delivery." },
-      s4: { title: "Quality & Ethics", desc: "Absolute compliance security. All partner factories conform to stringent EU standards (including CE) and pass strict social audits." }
-    },
-    cases: { subtitle: "Portfolio", title: "Premium solutions, made tangible", 
-      items: [
-        { title: "Consultancy Onboarding Box", desc: "Luxury matte black gift box featuring Moleskine-style notebooks, premium pens, and a bespoke powerbank. Perfectly aligned with a sophisticated corporate identity." },
-        { title: "Tech Event Swag", desc: "Sustainably produced rPET backpacks bundled with top-tier (CE-certified) wireless fast chargers, delivered straight to the venue." },
-        { title: "FMCG Summer Promo", desc: "High-volume order of terry cloth towels (fast-tracked in Turkey) combined with premium cooler bags for deep national brand penetration." }
-      ]
-    },
-    why: { title: "The H&O Guarantee", desc: "Why major players entrust us with their promotional procurement and distribution.",
-      features: [
-        { title: "End-to-End Unburdening", desc: "We eliminate complexity. No concerns about import duties, flaws, or communication. We are your dedicated SPOC." },
-        { title: "Transparent Economies of Scale", desc: "We cut out the middleman. Our direct purchasing and volume bundling guarantee sharp procurement rates." },
-        { title: "European Compliance & Quality", desc: "From CE marks on electronics to BSCI-certified clothing, we guarantee 100% safety and peace of mind for your purchasing department." },
-        { title: "Speed (Near-Shoring)", desc: "Through our Turkish textile hubs, we can act remarkably fast when instant market trend reactions are required." }
-      ]
-    },
-    break: "Scalable solutions. Zero compromises.",
-    contact: { ready: "Ready to simplify your supply chain?", title: "Elevate your corporate gifting.", desc: "Contact our Senior Account Managers to discuss how H&O Worldwide can elevate your promotional efficiency.", quote: "Request a Sample Pack", call: "Contact Us" },
-    footer: { desc: "H&O Worldwide Solutions is your B2B partner in custom sourcing, ethical production, and full-service merchandise logistics.", menu: "Navigation", offices: "Operational Hubs", hq: "Headquarters EU", privacy: "Privacy Policy & Cookies" },
-    cookie: { title: "We respect your privacy", desc: "We use essential cookies to make our site work. We also use optional cookies for analytics to improve our services. By clicking 'Reject', only strictly necessary cookies will be set.", accept: "Accept All", reject: "Reject Optional" }
-  }
-};
+import SourcingNodes from './components/SourcingNodes';
+import ProcessJourney from './components/ProcessJourney';
+import { translations, Language } from './translations';
 
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [language, setLanguage] = useState<'NL' | 'EN'>('NL');
+  const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
+  const [language, setLanguage] = useState<Language>('EN');
   const t = translations[language];
+
+  const langs: { code: Language; name: string }[] = [
+    { code: 'EN', name: 'English' },
+    { code: 'NL', name: 'Nederlands' },
+    { code: 'FR', name: 'Français' },
+    { code: 'DE', name: 'Deutsch' },
+    { code: 'ES', name: 'Español' }
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -146,19 +95,30 @@ export default function App() {
               <a href="/#portfolio" className={`text-sm font-medium transition-colors ${isScrolled ? 'text-slate-600 hover:text-indigo-600' : 'text-slate-200 hover:text-white'}`}>{t.nav.cases}</a>
               <a href="/#why-us" className={`text-sm font-medium transition-colors ${isScrolled ? 'text-slate-600 hover:text-indigo-600' : 'text-slate-200 hover:text-white'}`}>{t.nav.why}</a>
               
-              <div className={`flex items-center rounded-full p-1 border ml-4 ${isScrolled ? 'bg-slate-100 border-slate-200' : 'bg-white/10 border-white/10 backdrop-blur-sm'}`}>
+              <div className="relative ml-4">
                 <button
-                  onClick={() => setLanguage('NL')}
-                  className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${language === 'NL' ? 'bg-indigo-600 text-white shadow-sm' : (isScrolled ? 'text-slate-500 hover:text-slate-900' : 'text-white/70 hover:text-white')}`}
+                  onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-sm font-semibold transition-colors ${
+                    isScrolled 
+                      ? 'bg-slate-100/50 hover:bg-slate-100 text-slate-700' 
+                      : 'bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm'
+                  }`}
                 >
-                  NL
+                  {language} <ChevronDown className="w-4 h-4" />
                 </button>
-                <button
-                  onClick={() => setLanguage('EN')}
-                  className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${language === 'EN' ? 'bg-indigo-600 text-white shadow-sm' : (isScrolled ? 'text-slate-500 hover:text-slate-900' : 'text-white/70 hover:text-white')}`}
-                >
-                  EN
-                </button>
+                {isLangMenuOpen && (
+                  <div className="absolute top-full right-0 mt-2 w-32 bg-white rounded-lg shadow-xl py-1 z-50 border border-slate-100">
+                    {langs.map(l => (
+                      <button
+                        key={l.code}
+                        onClick={() => { setLanguage(l.code); setIsLangMenuOpen(false); }}
+                        className={`flex w-full text-left px-4 py-2 text-sm hover:bg-slate-50 transition-colors ${language === l.code ? 'font-bold text-indigo-600' : 'text-slate-600'}`}
+                      >
+                        {l.name}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
 
               <a href="/#contact" className={`ml-4 px-6 py-2.5 rounded-md text-sm font-semibold shadow-sm transition-all ${isScrolled ? 'bg-indigo-900 text-white hover:bg-indigo-800' : 'bg-white text-indigo-900 hover:bg-slate-100'}`}>
@@ -182,20 +142,18 @@ export default function App() {
         {/* Mobile Nav */}
         {mobileMenuOpen && (
           <div id="mobile-navigation" className="md:hidden absolute top-full left-0 w-full bg-white shadow-lg py-4 px-4 flex flex-col space-y-4 border-t border-slate-100">
-            <div className="flex justify-center mb-2">
-              <div className="flex items-center rounded-full p-1 border bg-slate-100 border-slate-200">
-                <button
-                  onClick={() => { setLanguage('NL'); setMobileMenuOpen(false); }}
-                  className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${language === 'NL' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-500 hover:text-slate-900'}`}
-                >
-                  NL
-                </button>
-                <button
-                  onClick={() => { setLanguage('EN'); setMobileMenuOpen(false); }}
-                  className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${language === 'EN' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-500 hover:text-slate-900'}`}
-                >
-                  EN
-                </button>
+            <div className="flex flex-col gap-2 mb-2 px-4 py-2 border-b border-slate-100">
+              <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Select Language</span>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                {langs.map(l => (
+                  <button
+                    key={l.code}
+                    onClick={() => { setLanguage(l.code); setMobileMenuOpen(false); }}
+                    className={`px-3 py-2 rounded-lg text-sm text-center font-bold transition-all ${language === l.code ? 'bg-indigo-600 text-white shadow-sm' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+                  >
+                    {l.name}
+                  </button>
+                ))}
               </div>
             </div>
             <a href="/#about" onClick={() => setMobileMenuOpen(false)} className="text-slate-600 font-medium px-4 py-2 hover:text-indigo-600 border-l-2 border-transparent hover:border-indigo-600">{t.nav.about}</a>
@@ -251,7 +209,14 @@ export default function App() {
               {t.hero.desc}
             </motion.p>
             
-            <motion.div variants={fadeIn} className="flex flex-col sm:flex-row gap-4">
+            <motion.div variants={fadeIn} className="flex flex-col sm:flex-row gap-4 mb-4">
+              <a 
+                href="#contact"
+                className="inline-flex justify-center items-center gap-2 px-8 py-4 bg-indigo-600 border border-indigo-500 text-white hover:bg-indigo-700 hover:border-indigo-600 transition-colors rounded-lg font-bold text-sm shadow-lg hover:shadow-xl"
+              >
+                {t.hero.quote}
+                <ChevronRight className="w-4 h-4" />
+              </a>
               <button 
                 onClick={(e) => {
                   e.preventDefault();
@@ -259,16 +224,30 @@ export default function App() {
                 }}
                 className="inline-flex justify-center items-center gap-2 px-8 py-4 bg-white text-slate-900 hover:bg-slate-200 transition-colors rounded-lg font-bold text-sm shadow-lg hover:shadow-xl"
               >
-                {t.hero.quote}
-                <ChevronRight className="w-4 h-4" />
+                <Package className="w-4 h-4" />
+                {t.hero.samplePack}
               </button>
-              <a href="#services" className="inline-flex justify-center items-center gap-2 px-8 py-4 border border-slate-600 bg-slate-900/40 backdrop-blur-sm text-white hover:bg-slate-800 transition-colors font-bold text-sm rounded-lg shadow-sm">
-                {t.hero.discover}
-              </a>
             </motion.div>
           </motion.div>
         </div>
       </section>
+
+      {/* Trust & Certifications Bar */}
+      <div className="bg-indigo-600 border-b border-indigo-500 py-6 relative z-10 shadow-[0_4px_20px_rgba(79,70,229,0.3)]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12">
+            <span className="text-indigo-100 font-semibold text-sm text-center uppercase tracking-wider">
+              {t.footer.certs}
+            </span>
+            <div className="flex items-center flex-wrap justify-center gap-6 md:gap-8 text-white">
+              <span className="font-bold text-lg tracking-wider flex items-center gap-2"><ShieldCheck className="w-5 h-5"/> ISO 9001</span>
+              <span className="font-black text-xl tracking-widest border-l border-indigo-400 pl-6 md:pl-8">CE</span>
+              <span className="font-bold text-lg tracking-wider border-l border-indigo-400 pl-6 md:pl-8">BSCI</span>
+              <span className="font-bold text-lg tracking-wider border-l border-indigo-400 pl-6 md:pl-8">rPET Certified</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* About Summary */}
       <section id="about" className="py-24 bg-white relative">
@@ -409,6 +388,10 @@ export default function App() {
         </div>
       </section>
 
+      <SourcingNodes t={t} />
+
+      <ProcessJourney t={t} />
+
       {/* Concept Cases Section / Portfolio */}
       <section id="portfolio" className="py-24 bg-slate-50 border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -424,9 +407,9 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {t.cases.items.map((item: any, i: number) => {
                const images = [
-                  "https://images.unsplash.com/photo-1544396821-4dd40b938ad3?q=80&w=800&h=600&auto=format&fit=crop",
-                  "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=800&h=600&auto=format&fit=crop",
-                  "https://images.unsplash.com/photo-1523381294911-8d3cead13475?q=80&w=800&h=600&auto=format&fit=crop"
+                  "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?q=80&w=800&h=600&auto=format&fit=crop", // Executive Onboarding (dark premium notebook/pen)
+                  "https://images.unsplash.com/photo-1581605405669-fcdf81165afa?q=80&w=800&h=600&auto=format&fit=crop", // Tech Event Swag (sleek wireless tech devices)
+                  "https://images.unsplash.com/photo-1616652434033-652ea41ef3e9?q=80&w=800&h=600&auto=format&fit=crop" // FMCG Towels (premium stacked textiles)
                ];
                return (
                 <Link to={`/details/cases/${i}`} key={i}>
@@ -535,7 +518,7 @@ export default function App() {
             <div className="flex flex-col items-center gap-2 text-indigo-100">
                <span className="font-bold text-white">Of bereik ons direct:</span>
                <span>info@howorldwide.com</span>
-               <span>+31 (0) 20 123 4567</span>
+               <span>+32 (0) 483 11 03 96</span>
             </div>
           </div>
         </div>
@@ -586,8 +569,6 @@ export default function App() {
         </div>
       </footer>
       
-      <ChatWidget t={t} />
-
       <SamplePackModal 
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 

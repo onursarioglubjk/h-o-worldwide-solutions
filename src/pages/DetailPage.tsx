@@ -1,10 +1,10 @@
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ChevronRight, ArrowLeft } from 'lucide-react';
-import { translations } from '../translations';
+import { translations, Language } from '../translations';
 import SEO from '../components/SEO';
 
-export default function DetailPage({ language }: { language: 'NL' | 'EN' }) {
+export default function DetailPage({ language }: { language: Language }) {
   const { type, id } = useParams<{ type: string; id: string }>();
   const t = translations[language];
 
@@ -22,7 +22,7 @@ export default function DetailPage({ language }: { language: 'NL' | 'EN' }) {
     const idx = parseInt(id, 10);
     const item = t.cases.items[idx];
     if (item) {
-      data = { title: item.title, desc: item.desc, label: t.cases.title };
+      data = { title: item.title, desc: item.desc, longDesc: item.longDesc, label: t.cases.title };
     }
   } else if (type === 'guarantees' && id) {
     const idx = parseInt(id, 10);
@@ -71,21 +71,29 @@ export default function DetailPage({ language }: { language: 'NL' | 'EN' }) {
             <p className="text-lg text-slate-600 leading-relaxed font-medium">
               {data.desc}
             </p>
-            {/* Extended dummy content for demo */}
+            {/* Extended content for longDesc or fallback to dummy */}
             <div className="mt-8 pt-8 border-t border-slate-100">
                <h3 className="text-xl font-bold text-slate-900 mb-4">
                  {language === 'NL' ? 'Meer Details' : 'More Details'}
                </h3>
-               <p className="text-slate-600 mb-4">
-                 {language === 'NL' ? 
-                   "Om de implementatie en distributie te maximaliseren integreren we de nieuwste supply chain management principes. Binnen ons netwerk combineren we snelheid met uitstekende kwaliteitscontrole, direct vanaf de strategische hubs tot aan uw lokale distributiecentra." 
-                   : "To maximize implementation and distribution we integrate the latest supply chain management principles. Within our network we combine speed with excellent quality control, direct from strategic hubs straight to your local distribution centers."}
-               </p>
-               <ul className="list-disc pl-6 space-y-2 text-slate-600">
-                 <li>{language === 'NL' ? 'Volledig transparante voortgangsrapporten' : 'Fully transparent progress reporting'}</li>
-                 <li>{language === 'NL' ? 'Striker focus op internationale wetgeving' : 'Strict focus on international compliance'}</li>
-                 <li>{language === 'NL' ? 'Toegewijde account managers' : 'Dedicated account managers'}</li>
-               </ul>
+               {data.longDesc ? (
+                 <p className="text-slate-600 leading-relaxed">
+                   {data.longDesc}
+                 </p>
+               ) : (
+                 <>
+                   <p className="text-slate-600 mb-4">
+                     {language === 'NL' ? 
+                       "Om de implementatie en distributie te maximaliseren integreren we de nieuwste supply chain management principes. Binnen ons netwerk combineren we snelheid met uitstekende kwaliteitscontrole, direct vanaf de strategische hubs tot aan uw lokale distributiecentra." 
+                       : "To maximize implementation and distribution we integrate the latest supply chain management principles. Within our network we combine speed with excellent quality control, direct from strategic hubs straight to your local distribution centers."}
+                   </p>
+                   <ul className="list-disc pl-6 space-y-2 text-slate-600">
+                     <li>{language === 'NL' ? 'Volledig transparante voortgangsrapporten' : 'Fully transparent progress reporting'}</li>
+                     <li>{language === 'NL' ? 'Striker focus op internationale wetgeving' : 'Strict focus on international compliance'}</li>
+                     <li>{language === 'NL' ? 'Toegewijde account managers' : 'Dedicated account managers'}</li>
+                   </ul>
+                 </>
+               )}
             </div>
           </div>
           
