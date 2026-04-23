@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { ChevronRight, ArrowLeft } from 'lucide-react';
+import { ChevronRight, ArrowLeft, ShieldCheck } from 'lucide-react';
 import { translations, Language } from '../translations';
 import SEO from '../components/SEO';
 
@@ -15,7 +15,7 @@ export default function DetailPage({ language }: { language: Language }) {
     if (t.services[serviceKey] && typeof t.services[serviceKey] !== 'string') {
       const s = t.services[serviceKey] as any;
       if (s.title) {
-        data = { title: s.title, desc: s.desc, label: t.nav.services };
+        data = { title: s.title, desc: s.desc, longTitle: s.longTitle, longDesc: s.longDesc, label: t.nav.services };
       }
     }
   } else if (type === 'cases' && id) {
@@ -26,9 +26,9 @@ export default function DetailPage({ language }: { language: Language }) {
     }
   } else if (type === 'guarantees' && id) {
     const idx = parseInt(id, 10);
-    const item = t.why.features[idx];
+    const item = t.why.features[idx] as any;
     if (item) {
-      data = { title: item.title, desc: item.desc, label: t.why.title };
+      data = { title: item.title, desc: item.desc, longTitle: item.longTitle, longDesc: item.longDesc, showBadges: item.showBadges, label: t.why.title };
     }
   }
 
@@ -74,14 +74,33 @@ export default function DetailPage({ language }: { language: Language }) {
             {/* Extended content for longDesc or fallback to dummy */}
             <div className="mt-8 pt-8 border-t border-slate-100">
                <h3 className="text-xl font-bold text-slate-900 mb-4">
-                 {language === 'NL' ? 'Meer Details' : 'More Details'}
+                 {data.longTitle || (language === 'NL' ? 'Meer Details' : 'More Details')}
                </h3>
                {data.longDesc ? (
-                 <p className="text-slate-600 leading-relaxed">
-                   {data.longDesc}
-                 </p>
-               ) : (
-                 <>
+               <div className="text-slate-600 leading-relaxed font-medium space-y-4">
+                 {data.longDesc.split('\n\n').map((paragraph: string, idx: number) => (
+                    <p key={idx}>{paragraph}</p>
+                 ))}
+                 
+                 {data.showBadges && (
+                    <div className="flex flex-wrap gap-4 mt-6 pt-6 border-t border-slate-100">
+                        <div className="flex items-center gap-2 bg-slate-50 px-4 py-3 rounded-lg border border-slate-200 shadow-sm">
+                           <ShieldCheck className="w-5 h-5 text-indigo-600" />
+                           <span className="font-bold text-slate-800 text-sm">CE Certified</span>
+                        </div>
+                        <div className="flex items-center gap-2 bg-slate-50 px-4 py-3 rounded-lg border border-slate-200 shadow-sm">
+                           <ShieldCheck className="w-5 h-5 text-indigo-600" />
+                           <span className="font-bold text-slate-800 text-sm">BSCI Audited</span>
+                        </div>
+                        <div className="flex items-center gap-2 bg-slate-50 px-4 py-3 rounded-lg border border-slate-200 shadow-sm">
+                           <ShieldCheck className="w-5 h-5 text-indigo-600" />
+                           <span className="font-bold text-slate-800 text-sm">REACH / OEKO-TEX</span>
+                        </div>
+                    </div>
+                 )}
+               </div>
+             ) : (
+               <>
                    <p className="text-slate-600 mb-4">
                      {language === 'NL' ? 
                        "Om de implementatie en distributie te maximaliseren integreren we de nieuwste supply chain management principes. Binnen ons netwerk combineren we snelheid met uitstekende kwaliteitscontrole, direct vanaf de strategische hubs tot aan uw lokale distributiecentra." 
@@ -97,9 +116,13 @@ export default function DetailPage({ language }: { language: Language }) {
             </div>
           </div>
           
-          <div className="mt-12">
-            <Link to="/" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-indigo-600 text-white rounded-lg font-bold text-sm shadow-md hover:bg-indigo-500 transition-colors">
-              {language === 'NL' ? 'Bekijk alle diensten' : 'View all services'} <ChevronRight className="w-4 h-4"/>
+          <div className="mt-12 pt-8 border-t border-slate-100 pb-4">
+            <Link to="/#contact" className="inline-flex items-center gap-2 px-8 py-4 bg-indigo-600 text-white rounded-lg font-bold hover:bg-slate-900 transition-colors">
+              {language === 'NL' ? 'Bespreek uw project met een expert →' :
+               language === 'FR' ? 'Discutez de votre projet avec un expert →' :
+               language === 'DE' ? 'Besprechen Sie Ihr Projekt mit einem Experten →' :
+               language === 'ES' ? 'Discuta su proyecto con un experto →' :
+               'Discuss your project with an expert →'}
             </Link>
           </div>
         </motion.div>
